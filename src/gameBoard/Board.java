@@ -20,7 +20,7 @@ public class Board {
 	 * Creates a new board of size width by height
 	 * @param width
 	 * @param height
-	 * @param initDefaultPieces whether or not to place default configuration of pieces
+	 * @param initDefaultPieces whether or not to place default configuration of pieces. Width must be 8 for this to take effect
 	 */
 	public Board(int width, int height, boolean initDefaultPieces) {
 		this.width = width;
@@ -31,13 +31,13 @@ public class Board {
 		whitePieces = new ArrayList<Piece>();
 		blackPieces = new ArrayList<Piece>();
 		
-		if(initDefaultPieces) {
+		if(initDefaultPieces && (width == 8)) {
 			initPieces();
 		}
 	}
 	
 	/**
-	 * Creates a new board of size width by height and places pieces in default configuration
+	 * Creates a new board of size width by height and, if a normal width of 8, places pieces in default configuration
 	 * @param width
 	 * @param height
 	 */
@@ -109,9 +109,36 @@ public class Board {
 	
 	/**
 	 * Place all the pieces on the board in their starting position
+	 * Assumes a board of width 8
 	 */
 	private void initPieces() {
-		insertPiece(new Pawn(0,0, Piece.Side.BLACK));
+		if(getWidth() != 8)
+			return;
+		//Pawns
+		for(int x = 0; x < getWidth(); x++) {
+			insertPiece(new Pawn(x, 1, Side.WHITE));
+			insertPiece(new Pawn(x, getHeight() - 2, Side.BLACK));
+		}
+		
+		//White Pieces
+		insertPiece(new Rook(0, 0, Side.WHITE));
+		insertPiece(new Knight(1, 0, Side.WHITE));
+		insertPiece(new Bishop(2, 0, Side.WHITE));
+		insertPiece(new Queen(3, 0, Side.WHITE));
+		insertPiece(new King(4, 0, Side.WHITE));
+		insertPiece(new Bishop(5, 0, Side.WHITE));
+		insertPiece(new Knight(6, 0, Side.WHITE));
+		insertPiece(new Rook(7, 0, Side.WHITE));
+		
+		//Black Pieces
+		insertPiece(new Rook(0, getHeight() - 1, Side.BLACK));
+		insertPiece(new Knight(1, getHeight() - 1, Side.BLACK));
+		insertPiece(new Bishop(2, getHeight() - 1, Side.BLACK));
+		insertPiece(new Queen(3, getHeight() - 1, Side.BLACK));
+		insertPiece(new King(4, getHeight() - 1, Side.BLACK));
+		insertPiece(new Bishop(5, getHeight() - 1, Side.BLACK));
+		insertPiece(new Knight(6, getHeight() - 1, Side.BLACK));
+		insertPiece(new Rook(7, getHeight() - 1, Side.BLACK));
 	}
 	
 	/**
@@ -120,6 +147,8 @@ public class Board {
 	 * @param p The piece to add to the tiles array
 	 */
 	private void insertPiece(Piece p) {
+		if(!validPoint(p.getPosition()))
+			throw new InvalidPointException("Could not insert piece, position is invalid: " + p.getPosition());
 		tiles[p.getPosition().x][p.getPosition().y] = p;
 		(p.getSide() == Side.BLACK ? blackPieces : whitePieces).add(p);
 	}
