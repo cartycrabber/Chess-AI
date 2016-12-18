@@ -27,6 +27,12 @@ public abstract class Piece {
 		this(new Point(x, y), s, debugName);
 	}
 	
+	/**
+	 * Creates a new Piece at the specified point belonging to the specified side
+	 * @param position
+	 * @param side
+	 * @param debugName The name to use in toString()
+	 */
 	protected Piece(Point position, Side side, String debugName) {
 		this.position = position;
 		this.side = side;
@@ -49,8 +55,11 @@ public abstract class Piece {
 		return position;
 	}
 	
-	//A list of all possible movement offsets from 0,0
-	//Must be extrapolated to pieces current position
+	/**
+	 * A list off all possible moves according to the rules of chess for this piece
+	 * @param b the board instance to check for possible moves
+	 * @return list of possible destination points
+	 */
 	public abstract ArrayList<Point> getPossibleMoves(Board b);
 	
 	public String toString() {
