@@ -22,7 +22,6 @@ public class Queen extends Piece {
 		moves.addAll(subTest.getPossibleMoves(b));
 		subTest = new Bishop(getPosition(), getSide());
 		moves.addAll(subTest.getPossibleMoves(b));
-		
 		return moves;
 	}
 
