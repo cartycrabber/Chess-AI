@@ -3,7 +3,11 @@ package gameBoard;
 import java.awt.Point;
 import java.util.ArrayList;
 
+import gameBoard.Piece.Side;
+
 public abstract class Piece {
+	
+	private String debugName;
 	
 	public enum Side {
 		BLACK, WHITE
@@ -17,14 +21,16 @@ public abstract class Piece {
 	 * @param x
 	 * @param y
 	 * @param s
+	 * @param debugName The name to use in toString()
 	 */
-	public Piece(int x, int y, Side s) {
-		this(new Point(x, y), s);
+	protected Piece(int x, int y, Side s, String debugName) {
+		this(new Point(x, y), s, debugName);
 	}
 	
-	public Piece(Point position, Side side) {
+	protected Piece(Point position, Side side, String debugName) {
 		this.position = position;
 		this.side = side;
+		this.debugName = debugName;
 	}
 	
 	public void setPosition(Point position) {
@@ -46,7 +52,9 @@ public abstract class Piece {
 	//A list of all possible movement offsets from 0,0
 	//Must be extrapolated to pieces current position
 	public abstract ArrayList<Point> getPossibleMoves(Board b);
-	public abstract String toString();
+	public String toString() {
+		return (getSide() == Side.BLACK ? "B" : "W") + "-" + debugName + "(" + getPosition().x + "," + getPosition().y + ")";
+	}
 	
 	public boolean equals(Object o) {
 		if(o == null)

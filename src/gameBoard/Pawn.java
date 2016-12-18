@@ -8,11 +8,12 @@ public class Pawn extends Piece {
 	private boolean hasMoved;
 	
 	public Pawn(int x, int y, Side s) {
-		this(new Point(x, y), s);
+		super(x, y, s, "Pawn");
+		hasMoved = false;
 	}
 	
 	public Pawn(Point position, Side s) {
-		super(position, s);
+		super(position, s, "Pawn");
 		hasMoved = false;
 	}
 	
@@ -49,11 +50,6 @@ public class Pawn extends Piece {
 		if(b.validPoint(test) && (b.getPieceAtPoint(test) != null) && (b.getPieceAtPoint(test).getSide() != getSide()))
 			moves.add(test);
 		return moves;
-	}
-
-	
-	public String toString() {
-		return (getSide() == Side.BLACK ? "B" : "W") + "-Pawn(" + getPosition().x + "," + getPosition().y + ")";
 	}
 	
 	public boolean equals(Object o) {
