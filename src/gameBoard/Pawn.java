@@ -33,12 +33,12 @@ public class Pawn extends Piece {
 		ArrayList<Point> moves = new ArrayList<Point>();
 		Point test = new Point(getPosition().x, getPosition().y + 1);
 		//If it is a valid point on the board and either there is no piece at the point or the piece belongs to the other side
-		if(b.validPoint(test) && ((b.getPieceAtPoint(test) == null) || (b.getPieceAtPoint(test).getSide() != getSide())))
+		if(b.validPoint(test) && ((b.getPieceAtPoint(test) == null)))
 			moves.add(test);
 		
 		if(!hasMoved) {
 			test = new Point(getPosition().x, getPosition().y + 2);
-			if(b.validPoint(test) && ((b.getPieceAtPoint(test) == null) || (b.getPieceAtPoint(test).getSide() != getSide())))
+			if(b.validPoint(test) && ((b.getPieceAtPoint(test) == null)))
 				moves.add(test);
 		}
 		

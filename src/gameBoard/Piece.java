@@ -52,6 +52,7 @@ public abstract class Piece {
 	//A list of all possible movement offsets from 0,0
 	//Must be extrapolated to pieces current position
 	public abstract ArrayList<Point> getPossibleMoves(Board b);
+	
 	public String toString() {
 		return (getSide() == Side.BLACK ? "B" : "W") + "-" + debugName + "(" + getPosition().x + "," + getPosition().y + ")";
 	}
