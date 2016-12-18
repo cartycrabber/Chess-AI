@@ -5,13 +5,19 @@ import java.util.ArrayList;
 
 public abstract class Piece {
 	
-	enum Side {
+	public enum Side {
 		BLACK, WHITE
 	};
 	
-	protected Point position;
+	private Point position;
 	private Side side;
 	
+	/**
+	 * Creates a new Piece at position (x,y) belonging to the specified side
+	 * @param x
+	 * @param y
+	 * @param s
+	 */
 	public Piece(int x, int y, Side s) {
 		this(new Point(x, y), s);
 	}
@@ -39,7 +45,20 @@ public abstract class Piece {
 	
 	//A list of all possible movement offsets from 0,0
 	//Must be extrapolated to pieces current position
-	public abstract ArrayList<Move> getPossibleMoves();
+	public abstract ArrayList<Point> getPossibleMoves(Board b);
 	public abstract String toString();
+	
+	public boolean equals(Object o) {
+		if(o == null)
+			return false;
+		if(o == this)
+			return true;
+		if(o.getClass() == this.getClass()) {
+			Piece p = (Piece)o;
+			return ((p.getPosition().equals(getPosition()))
+					&& (p.getSide() == getSide()));
+		}
+		return false;
+	}
 	
 }
