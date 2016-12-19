@@ -36,19 +36,20 @@ public class Pawn extends Piece {
 	@Override
 	public ArrayList<Move> getPossibleMoves(Board b) {
 		ArrayList<Move> moves = new ArrayList<Move>();
-		Point test = new Point(getPosition().x, getPosition().y + 1);
+		int direction = (getSide() == Side.WHITE ? 1 : -1);
+		Point test = new Point(getPosition().x, getPosition().y + 1 * direction);
 		//If it is a valid point on the board and either there is no piece at the point or the piece belongs to the other side
 		if(b.validPoint(test) && ((b.getPieceAtPoint(test) == null)))
 			moves.add(new Move(this, test));
 		
 		if(!hasMoved) {
-			test = new Point(getPosition().x, getPosition().y + 2);
+			test = new Point(getPosition().x, getPosition().y + 2 * direction);
 			if(b.validPoint(test) && (b.getPieceAtPoint(test) == null)
 					&& (b.getPieceAtPoint(new Point(getPosition().x, getPosition().y + 1)) == null))
 				moves.add(new Move(this, test));
 		}
 		
-		test = new Point(getPosition().x + 1, getPosition().y + 1);
+		test = new Point(getPosition().x + 1, getPosition().y + 1 * direction);
 		Piece pieceAtPoint;
 		if(b.validPoint(test)) {
 			pieceAtPoint = b.getPieceAtPoint(test);
@@ -56,7 +57,7 @@ public class Pawn extends Piece {
 				moves.add(new Move(this, test));
 		}
 		
-		test = new Point(getPosition().x - 1, getPosition().y + 1);
+		test = new Point(getPosition().x - 1, getPosition().y + 1 * direction);
 		if(b.validPoint(test)) {
 			pieceAtPoint = b.getPieceAtPoint(test);
 			if((pieceAtPoint != null) && (pieceAtPoint.getSide() != getSide()))
