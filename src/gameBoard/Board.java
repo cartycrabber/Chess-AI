@@ -73,15 +73,17 @@ public class Board {
 		if(piece == null)
 			throw new PieceNotFoundException("No such piece on board");
 		Piece destroyed = tiles[position.x][position.y];
-		if(piece.getSide() == destroyed.getSide())
-			throw new InvalidMoveException("Cannot destroy piece of same side");
+		if(destroyed != null) {
+			if(piece.getSide() == destroyed.getSide())
+				throw new InvalidMoveException("Cannot destroy piece of same side");
+			boolean success = whitePieces.remove(destroyed);
+			System.out.println("Removed " + destroyed + " from whitePieces: " + success);
+			success = blackPieces.remove(destroyed);
+			System.out.println("Removed " + destroyed + " from blackPieces: " + success);
+		}
 		tiles[position.x][position.y] = piece;
 		tiles[piece.getPosition().x][piece.getPosition().y] = null;
-		piece.setPosition(destroyed.getPosition());
-		boolean success = whitePieces.remove(destroyed);
-		System.out.println("Removed " + destroyed + " from whitePieces: " + success);
-		success = blackPieces.remove(destroyed);
-		System.out.println("Removed " + destroyed + " from blackPieces: " + success);
+		piece.setPosition(position);
 		return destroyed;
 	}
 	
@@ -191,6 +193,33 @@ public class Board {
 		default:
 			throw new UnsupportedOperationException("This side has not been implemented: " + side.toString());
 		}
+	}
+	
+	/**
+	 * Returns whether or not the specified side is in check
+	 * @param s The side to check whether or not is in check
+	 * @return True if the side is in check
+	 */
+	public boolean inCheck(Side s) {
+		ArrayList<Piece> pieces = (s == Side.BLACK ? blackPieces : whitePieces);
+		Point kingPosition = null;
+		for(Piece p : pieces) {
+			if(p instanceof King) {
+				kingPosition = p.getPosition();
+			}
+		}
+		if(kingPosition == null)
+			throw new PieceNotFoundException("Specified side has no King");
+		
+		ArrayList<Piece> enemyPieces = (s == Side.WHITE ? blackPieces : whitePieces);
+		for(Piece p : enemyPieces) {
+			for(Move m : p.getPossibleMoves(this)) {
+				if(m.getDestination().equals(kingPosition)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	public String toString() {

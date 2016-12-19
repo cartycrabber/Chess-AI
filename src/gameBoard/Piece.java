@@ -40,7 +40,7 @@ public abstract class Piece {
 	}
 	
 	public void setPosition(Point position) {
-		position.setLocation(position);
+		this.position.setLocation(position);
 	}
 	
 	public void setPosition(int x, int y) {
