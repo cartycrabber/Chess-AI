@@ -170,6 +170,17 @@ public class Board {
 		return ((p.x < width) && (p.x >= 0) && (p.y < height) && (p.y >= 0));
 	}
 	
+	public ArrayList<Piece> getPieces(Side side) {
+		switch(side) {
+		case BLACK:
+			return (ArrayList<Piece>) blackPieces.clone();
+		case WHITE:
+			return (ArrayList<Piece>) whitePieces.clone();
+		default:
+			throw new UnsupportedOperationException("This side has not been implemented: " + side.toString());
+		}
+	}
+	
 	public String toString() {
 		String str = "";
 		
