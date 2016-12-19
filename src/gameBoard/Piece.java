@@ -11,7 +11,7 @@ public abstract class Piece {
 	
 	public enum Side {
 		BLACK, WHITE;
-		public Side oppositeSide(Side s) { return (s == BLACK ? WHITE : BLACK); }
+		public Side oppositeSide() { return (this == BLACK ? WHITE : BLACK); }
 	};
 	
 	private Point position;
