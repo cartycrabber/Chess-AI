@@ -15,6 +15,7 @@ public abstract class Piece {
 	
 	private Point position;
 	private Side side;
+	private Side opponentSide;
 	
 	/**
 	 * Creates a new Piece at position (x,y) belonging to the specified side
@@ -36,6 +37,7 @@ public abstract class Piece {
 	protected Piece(Point position, Side side, String debugName) {
 		this.position = position;
 		this.side = side;
+		opponentSide = (side == Side.BLACK ? Side.WHITE : Side.BLACK);
 		this.debugName = debugName;
 	}
 	
@@ -49,6 +51,10 @@ public abstract class Piece {
 	
 	public Side getSide() {
 		return side;
+	}
+	
+	public Side getOpponentSide() {
+		return opponentSide;
 	}
 	
 	public Point getPosition() {
