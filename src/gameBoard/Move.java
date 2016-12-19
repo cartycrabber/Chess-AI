@@ -16,11 +16,19 @@ public class Move {
 		return piece;
 	}
 	
+	public void setPiece(Piece p) {
+		this.piece = p;
+	}
+	
 	public Point getDestination() {
 		return destination;
 	}
 	
 	public Point getOrigin() {
 		return piece.getPosition();
+	}
+	
+	public String toString() {
+		return piece + " => (" + destination.x + "," + destination.y + ")";
 	}
 }
