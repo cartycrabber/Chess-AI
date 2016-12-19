@@ -43,7 +43,8 @@ public class Pawn extends Piece {
 		
 		if(!hasMoved) {
 			test = new Point(getPosition().x, getPosition().y + 2);
-			if(b.validPoint(test) && ((b.getPieceAtPoint(test) == null)))
+			if(b.validPoint(test) && (b.getPieceAtPoint(test) == null)
+					&& (b.getPieceAtPoint(new Point(getPosition().x, getPosition().y + 1)) == null))
 				moves.add(new Move(this, test));
 		}
 		
