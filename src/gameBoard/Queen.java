@@ -26,6 +26,11 @@ public class Queen extends Piece {
 		moves.addAll(subTest.getPossibleMoves(b));
 		subTest = new Bishop(getPosition(), getSide());
 		moves.addAll(subTest.getPossibleMoves(b));
+		
+		//All the move pieces are Rooks and Bishops, need to convert them to Queens
+		for(Move m : moves) {
+			m.setPiece(this);
+		}
 		return moves;
 	}
 
