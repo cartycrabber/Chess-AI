@@ -17,6 +17,7 @@ public class Board {
 	private ArrayList<Piece> whitePieces;
 	
 	private boolean gameOver;
+	private Side winner;
 	
 	/**
 	 * Creates a new board of size width by height
@@ -34,6 +35,7 @@ public class Board {
 		blackPieces = new ArrayList<Piece>();
 		
 		gameOver = false;
+		winner = null;
 		
 		if(initDefaultPieces && (width == 8)) {
 			initPieces();
@@ -56,16 +58,27 @@ public class Board {
 	public Board(Board b) {
 		this.width = b.width;
 		this.height = b.height;
-		this.tiles = b.tiles.clone();
+		this.tiles = new Piece[width][height];
 		this.gameOver = b.gameOver;
+		this.winner = b.winner;
 		whitePieces = new ArrayList<Piece>();
 		blackPieces = new ArrayList<Piece>();
 		
-		for(Piece p : b.whitePieces) {
-			this.whitePieces.add(p.copy());
-		}
-		for(Piece p : b.blackPieces) {
-			this.blackPieces.add(p.copy());
+		//Copy tiles array and piece list
+		for(int x = 0; x < b.tiles.length; x++) {
+			for(int y = 0; y < b.tiles[0].length; y++) {
+				if(b.tiles[x][y] != null) {
+					this.tiles[x][y] = b.tiles[x][y].copy();
+					switch(tiles[x][y].getSide()) {
+					case BLACK:
+						blackPieces.add(tiles[x][y]);
+						break;
+					case WHITE:
+						whitePieces.add(tiles[x][y]);
+						break;
+					}
+				}
+			}
 		}
 	}
 	
@@ -83,17 +96,19 @@ public class Board {
 			throw new InvalidMoveException("Invalid destination: " + position.x + "," + position.y);
 		piece = findPiece(piece);
 		if(piece == null)
-			throw new PieceNotFoundException("No such piece on board");
+			throw new PieceNotFoundException("No such piece on board: " + piece);
 		Piece destroyed = tiles[position.x][position.y];
 		if(destroyed != null) {
 			if(piece.getSide() == destroyed.getSide())
 				throw new InvalidMoveException("Cannot destroy piece of same side");
 			boolean success = whitePieces.remove(destroyed);
-			System.out.println("Removed " + destroyed + " from whitePieces: " + success);
+			//System.out.println("Removed " + destroyed + " from whitePieces: " + success);
 			success = blackPieces.remove(destroyed);
-			System.out.println("Removed " + destroyed + " from blackPieces: " + success);
-			if(destroyed instanceof King)
+			//System.out.println("Removed " + destroyed + " from blackPieces: " + success);
+			if(destroyed instanceof King) {
 				gameOver = true;
+				winner = destroyed.getSide().oppositeSide();
+			}
 		}
 		tiles[position.x][position.y] = piece;
 		tiles[piece.getPosition().x][piece.getPosition().y] = null;
@@ -174,7 +189,7 @@ public class Board {
 	 * Uses the location stored within the piece
 	 * @param p The piece to add to the tiles array
 	 */
-	private void insertPiece(Piece p) {
+	public void insertPiece(Piece p) {
 		if(!validPoint(p.getPosition()))
 			throw new InvalidPointException("Could not insert piece, position is invalid: " + p.getPosition());
 		tiles[p.getPosition().x][p.getPosition().y] = p;
@@ -210,11 +225,12 @@ public class Board {
 	}
 	
 	/**
-	 * Returns whether or not the specified side is in check
+	 * Returns whether or not the specified side's king is in direct path of an opponents piece
+	 * Does not factor in whether other pieces can block
 	 * @param s The side to check whether or not is in check
 	 * @return True if the side is in check
 	 */
-	public boolean inCheck(Side s) {
+	public boolean inDanger(Side s) {
 		ArrayList<Piece> pieces = (s == Side.BLACK ? blackPieces : whitePieces);
 		Point kingPosition = null;
 		for(Piece p : pieces) {
@@ -222,8 +238,10 @@ public class Board {
 				kingPosition = p.getPosition();
 			}
 		}
-		if(kingPosition == null)
-			throw new PieceNotFoundException("Specified side has no King");
+		if(kingPosition == null) {
+			//System.out.println("WARNING: Specified side has no King: " + s);
+			return false;
+		}
 		
 		ArrayList<Piece> enemyPieces = (s == Side.WHITE ? blackPieces : whitePieces);
 		for(Piece p : enemyPieces) {
@@ -238,6 +256,10 @@ public class Board {
 	
 	public boolean gameOver() {
 		return gameOver;
+	}
+	
+	public Side winner() {
+		return winner;
 	}
 	
 	public String toString() {
@@ -293,15 +315,41 @@ public class Board {
 		//Testing movement
 		System.out.println("################ Test 2 ################");
 		b = new Board(4,4, false);
-		b.insertPiece(new Pawn(0,0,Side.BLACK));
-		b.insertPiece(new Pawn(1,1,Side.WHITE));
+		b.insertPiece(new Bishop(0,0,Side.BLACK));
+		b.insertPiece(new Bishop(1,1,Side.WHITE));
+		b.insertPiece(new Bishop(2,2,Side.WHITE));
 		System.out.println(b);
-		System.out.println(b.getPieceAtPoint(new Point(0,0)).getPossibleMoves(b));
+		System.out.println(b.getPieceAtPoint(new Point(1,1)).getPossibleMoves(b));
 		System.out.println("White Pieces: " + b.whitePieces);
 		System.out.println("Black Pieces: " + b.blackPieces);
-		b.movePiece(new Pawn(0,0,Side.BLACK), new Point(1,1));
+		//b.movePiece(new Pawn(0,0,Side.BLACK), new Point(1,1));
+		//System.out.println(b);
+		//System.out.println("White Pieces: " + b.whitePieces);
+		//System.out.println("Black Pieces: " + b.blackPieces);
+		
+		//Testing board generation
+		System.out.println("################ Test 3 ################");
+		b = new Board(8,8);
 		System.out.println(b);
-		System.out.println("White Pieces: " + b.whitePieces);
-		System.out.println("Black Pieces: " + b.blackPieces);
+		
+		//Testing inCheck()
+		System.out.println("################ Test 4 ################");
+		b = new Board(4,4);
+		King k = new King(0,0,Side.BLACK);
+		b.insertPiece(k);
+		b.insertPiece(new Bishop(3,3,Side.WHITE));
+		System.out.println(b);
+		System.out.println("Black in check: " + b.inDanger(Side.BLACK));
+		b.movePiece(new Move(k, new Point(1,0)));
+		System.out.println(b);
+		System.out.println("Black in check: " + b.inDanger(Side.BLACK));
+		
+		//Testing side.oppositeSide()
+		System.out.println("################ Test 5 ################");
+		b = new Board(2,2);
+		p = new Pawn(0,0,Side.BLACK);
+		b.insertPiece(p);
+		System.out.println("Pawn side: " + p.getSide() + " Opponent side: " + p.getSide().oppositeSide());
+		System.out.println("Pawn side again: " + p.getSide());
 	}
 }
