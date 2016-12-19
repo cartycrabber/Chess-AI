@@ -28,6 +28,12 @@ public abstract class Piece {
 		this(new Point(x, y), s, debugName);
 	}
 	
+	public Piece(Piece p) {
+		this.position = new Point(p.position);
+		this.side = p.side;
+		this.debugName = new String(p.debugName);
+	}
+	
 	/**
 	 * Creates a new Piece at the specified point belonging to the specified side
 	 * @param position

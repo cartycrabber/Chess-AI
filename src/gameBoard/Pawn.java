@@ -17,6 +17,11 @@ public class Pawn extends Piece {
 		hasMoved = false;
 	}
 	
+	public Pawn(Pawn p) {
+		super(p);
+		this.hasMoved = p.hasMoved;
+	}
+	
 	//Set whether or not the pawn has moved;
 	public void setMoved(boolean moved) {
 		hasMoved = moved;
