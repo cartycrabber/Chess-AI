@@ -14,6 +14,10 @@ public class Rook extends Piece {
 	public Rook(Point position, Side side) {
 		super(position, side, "Rook");
 	}
+	
+	public Rook(Rook r) {
+		super(r);
+	}
 
 	@Override
 	public ArrayList<Move> getPossibleMoves(Board b) {
@@ -38,5 +42,9 @@ public class Rook extends Piece {
 				moves.add(new Move(this, test));
 		}
 		return moves;
+	}
+	
+	public Rook copy() {
+		return new Rook(this);
 	}
 }

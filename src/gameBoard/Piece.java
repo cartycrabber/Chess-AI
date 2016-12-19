@@ -68,6 +68,7 @@ public abstract class Piece {
 	 * @return list of possible destination points
 	 */
 	public abstract ArrayList<Move> getPossibleMoves(Board b);
+	public abstract Piece copy();
 	
 	public String toString() {
 		return (getSide() == Side.BLACK ? "B" : "W") + "-" + debugName + "(" + getPosition().x + "," + getPosition().y + ")";

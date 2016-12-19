@@ -12,6 +12,10 @@ public class Knight extends Piece {
 	public Knight(Point position, Side side) {
 		super(position, side, "Knight");
 	}
+	
+	public Knight(Knight k) {
+		super(k);
+	}
 
 	@Override
 	public ArrayList<Move> getPossibleMoves(Board b) {
@@ -75,6 +79,11 @@ public class Knight extends Piece {
 		}
 		
 		return moves;
+	}
+
+	@Override
+	public Piece copy() {
+		return new Knight(this);
 	}
 
 }

@@ -67,4 +67,9 @@ public class Pawn extends Piece {
 	public boolean equals(Object o) {
 		return super.equals(o) && (((Pawn) o).getMoved() == getMoved());
 	}
+
+	@Override
+	public Piece copy() {
+		return new Pawn(this);
+	}
 }

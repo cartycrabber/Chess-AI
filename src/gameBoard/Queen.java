@@ -12,6 +12,10 @@ public class Queen extends Piece {
 	public Queen(Point position, Side side) {
 		super(position, side, "Queen");
 	}
+	
+	public Queen(Queen q) {
+		super (q);
+	}
 
 	@Override
 	public ArrayList<Move> getPossibleMoves(Board b) {
@@ -25,4 +29,8 @@ public class Queen extends Piece {
 		return moves;
 	}
 
+	@Override
+	public Piece copy() {
+		return new Queen(this);
+	}
 }

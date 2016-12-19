@@ -12,6 +12,10 @@ public class Bishop extends Piece {
 	public Bishop(Point position, Side side) {
 		super(position, side, "Bishop");
 	}
+	
+	public Bishop(Bishop b) {
+		super(b);
+	}
 
 	@Override
 	public ArrayList<Move> getPossibleMoves(Board b) {
@@ -52,5 +56,9 @@ public class Bishop extends Piece {
 		
 		return moves;
 	}
-
+	
+	@Override
+	public Piece copy() {
+		return new Bishop(this);
+	}
 }
