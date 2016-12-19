@@ -33,7 +33,7 @@ public class AI {
 		possibleMoves = new Node<Board, Move>(b);
 		nodeCount = 0;
 		int negaMaxScore = negaMax(b, side, turnCalcDepth);
-		System.out.println("Max score found by negamax: " + negaMaxScore + " for move " + negaMaxMove);
+		System.out.println("Max score found by negamax: " + negaMaxScore + " for " + negaMaxMoves.size() + " moves");
 		/*buildMovesTree(b, side, possibleMoves, turnCalcDepth);
 		System.out.println("Moves tree complete. There are " + nodeCount + " nodes");
 		
@@ -72,18 +72,18 @@ public class AI {
 		}
 		
 		System.out.println("Move " + maxNode.getLink() + " is the maximizing move with a score of " + max);*/
-		
-		b.movePiece(negaMaxMove);
+		//Pick a random move from the list of max moves so that not every game is the same
+		b.movePiece(negaMaxMoves.get((int)(Math.random() * negaMaxMoves.size())));
 	}
 	
-	private Move negaMaxMove;
+	private ArrayList<Move> negaMaxMoves;
 	
 	private int negaMax(Board b, Side turn, int depth) {
 		if(depth <= 0) {
 			return eval(b,turn);
 		}
 		int max = -1000000;
-		Move m = null;
+		ArrayList<Move> m = new ArrayList<Move>();
 		ArrayList<Piece> pieces = b.getPieces(turn);
 		for(Piece piece : pieces) {
 			for(Move move : piece.getPossibleMoves(b)) {
@@ -92,11 +92,14 @@ public class AI {
 				int score = -negaMax(test, turn.oppositeSide(), depth - 1);
 				if(score > max) {
 					max = score;
-					m = move;
+					m.clear();
+					m.add(move);
 				}
+				if(score == max)
+					m.add(move);
 			}
 		}
-		negaMaxMove = m;
+		negaMaxMoves = m;
 		return max;
 	}
 	
