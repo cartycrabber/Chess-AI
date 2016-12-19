@@ -16,8 +16,8 @@ public class Rook extends Piece {
 	}
 
 	@Override
-	public ArrayList<Point> getPossibleMoves(Board b) {
-		ArrayList<Point> moves = new ArrayList<Point>();
+	public ArrayList<Move> getPossibleMoves(Board b) {
+		ArrayList<Move> moves = new ArrayList<Move>();
 		
 		Point test;
 		//Test left to right
@@ -26,7 +26,7 @@ public class Rook extends Piece {
 				continue;
 			test = new Point(x, getPosition().y);
 			if((b.getPieceAtPoint(test) == null) || (b.getPieceAtPoint(test).getSide() != getSide()))
-				moves.add(test);
+				moves.add(new Move(this, test));
 		}
 		
 		//Test bottom to top
@@ -35,7 +35,7 @@ public class Rook extends Piece {
 				continue;
 			test = new Point(getPosition().x, y);
 			if((b.getPieceAtPoint(test) == null) || (b.getPieceAtPoint(test).getSide() != getSide()))
-				moves.add(test);
+				moves.add(new Move(this, test));
 		}
 		return moves;
 	}

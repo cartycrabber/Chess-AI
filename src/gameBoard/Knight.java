@@ -14,64 +14,64 @@ public class Knight extends Piece {
 	}
 
 	@Override
-	public ArrayList<Point> getPossibleMoves(Board b) {
-		ArrayList<Point> moves = new ArrayList<Point>();
+	public ArrayList<Move> getPossibleMoves(Board b) {
+		ArrayList<Move> moves = new ArrayList<Move>();
 		
 		Point test = new Point(getPosition().x + 1, getPosition().y + 2);
 		Piece pieceAtPoint;
 		if(b.validPoint(test)) {
 			pieceAtPoint = b.getPieceAtPoint(test);
 			if((pieceAtPoint == null) || (pieceAtPoint.getSide() != getSide()))
-				moves.add((Point) test.clone());
+				moves.add(new Move(this, (Point) test.clone()));
 		}
 		
 		test = new Point(getPosition().x - 1, getPosition().y + 2);
 		if(b.validPoint(test)) {
 			pieceAtPoint = b.getPieceAtPoint(test);
 			if((pieceAtPoint == null) || (pieceAtPoint.getSide() != getSide()))
-				moves.add((Point) test.clone());
+				moves.add(new Move(this, (Point) test.clone()));
 		}
 		
 		test = new Point(getPosition().x - 1, getPosition().y - 2);
 		if(b.validPoint(test)) {
 			pieceAtPoint = b.getPieceAtPoint(test);
 			if((pieceAtPoint == null) || (pieceAtPoint.getSide() != getSide()))
-				moves.add((Point) test.clone());
+				moves.add(new Move(this, (Point) test.clone()));
 		}
 		
 		test = new Point(getPosition().x + 1, getPosition().y - 2);
 		if(b.validPoint(test)) {
 			pieceAtPoint = b.getPieceAtPoint(test);
 			if((pieceAtPoint == null) || (pieceAtPoint.getSide() != getSide()))
-				moves.add((Point) test.clone());
+				moves.add(new Move(this, (Point) test.clone()));
 		}
 		
 		test = new Point(getPosition().x + 2, getPosition().y + 1);
 		if(b.validPoint(test)) {
 			pieceAtPoint = b.getPieceAtPoint(test);
 			if((pieceAtPoint == null) || (pieceAtPoint.getSide() != getSide()))
-				moves.add((Point) test.clone());
+				moves.add(new Move(this, (Point) test.clone()));
 		}
 		
 		test = new Point(getPosition().x - 2, getPosition().y + 1);
 		if(b.validPoint(test)) {
 			pieceAtPoint = b.getPieceAtPoint(test);
 			if((pieceAtPoint == null) || (pieceAtPoint.getSide() != getSide()))
-				moves.add((Point) test.clone());
+				moves.add(new Move(this, (Point) test.clone()));
 		}
 		
 		test = new Point(getPosition().x - 2, getPosition().y - 1);
 		if(b.validPoint(test)) {
 			pieceAtPoint = b.getPieceAtPoint(test);
 			if((pieceAtPoint == null) || (pieceAtPoint.getSide() != getSide()))
-				moves.add((Point) test.clone());
+				moves.add(new Move(this, (Point) test.clone()));
 		}
 		
 		test = new Point(getPosition().x + 2, getPosition().y - 1);
 		if(b.validPoint(test)) {
 			pieceAtPoint = b.getPieceAtPoint(test);
 			if((pieceAtPoint == null) || (pieceAtPoint.getSide() != getSide()))
-				moves.add((Point) test.clone());
+				moves.add(new Move(this, (Point) test.clone()));
 		}
 		
 		return moves;

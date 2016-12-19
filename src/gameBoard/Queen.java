@@ -14,8 +14,8 @@ public class Queen extends Piece {
 	}
 
 	@Override
-	public ArrayList<Point> getPossibleMoves(Board b) {
-		ArrayList<Point> moves = new ArrayList<Point>();
+	public ArrayList<Move> getPossibleMoves(Board b) {
+		ArrayList<Move> moves = new ArrayList<Move>();
 		
 		//Basically, possible moves of a rook and bishop combined
 		Piece subTest = new Rook(getPosition(), getSide());

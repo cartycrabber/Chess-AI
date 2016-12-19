@@ -86,6 +86,18 @@ public class Board {
 	}
 	
 	/**
+	 * Executes the specified movement
+	 * Enforces rule against moving to a tile containing a piece of the same side
+	 * @param m
+	 * @return
+	 * @throws InvalidMoveException Thrown if the movement cannot be completed
+	 * @throws PieceNotFoundException Thrown if the specified piece was not found on the board
+	 */
+	public Piece movePiece(Move m) throws InvalidMoveException, PieceNotFoundException {
+		return movePiece(m.getPiece(), m.getDestination());
+	}
+	
+	/**
 	 * Returns a reference to the piece on the board matching the specified piece
 	 * @param p Piece to look for
 	 * @return Reference to found piece

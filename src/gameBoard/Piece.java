@@ -60,7 +60,7 @@ public abstract class Piece {
 	 * @param b the board instance to check for possible moves
 	 * @return list of possible destination points
 	 */
-	public abstract ArrayList<Point> getPossibleMoves(Board b);
+	public abstract ArrayList<Move> getPossibleMoves(Board b);
 	
 	public String toString() {
 		return (getSide() == Side.BLACK ? "B" : "W") + "-" + debugName + "(" + getPosition().x + "," + getPosition().y + ")";

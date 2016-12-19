@@ -14,15 +14,15 @@ public class Bishop extends Piece {
 	}
 
 	@Override
-	public ArrayList<Point> getPossibleMoves(Board b) {
-		ArrayList<Point> moves = new ArrayList<Point>();
+	public ArrayList<Move> getPossibleMoves(Board b) {
+		ArrayList<Move> moves = new ArrayList<Move>();
 		
 		Point test = new Point();
 		//Test up and to the right
 		for(test.setLocation(getPosition().x + 1, getPosition().y + 1); b.validPoint(test); test.setLocation(test.x + 1, test.y + 1)) {
 			Piece pieceAtPoint = b.getPieceAtPoint(test);
 			if((pieceAtPoint == null) || (pieceAtPoint.getSide() != getSide())) {
-				moves.add((Point) test.clone());
+				moves.add(new Move(this, (Point) test.clone()));
 			}
 		}
 		
@@ -30,7 +30,7 @@ public class Bishop extends Piece {
 		for(test.setLocation(getPosition().x - 1, getPosition().y + 1); b.validPoint(test); test.setLocation(test.x - 1, test.y + 1)) {
 			Piece pieceAtPoint = b.getPieceAtPoint(test);
 			if((pieceAtPoint == null) || (pieceAtPoint.getSide() != getSide())) {
-				moves.add((Point) test.clone());
+				moves.add(new Move(this, (Point) test.clone()));
 			}
 		}
 		
@@ -38,7 +38,7 @@ public class Bishop extends Piece {
 		for(test.setLocation(getPosition().x - 1, getPosition().y - 1); b.validPoint(test); test.setLocation(test.x - 1, test.y - 1)) {
 			Piece pieceAtPoint = b.getPieceAtPoint(test);
 			if((pieceAtPoint == null) || (pieceAtPoint.getSide() != getSide())) {
-				moves.add((Point) test.clone());
+				moves.add(new Move(this, (Point) test.clone()));
 			}
 		}
 		
@@ -46,7 +46,7 @@ public class Bishop extends Piece {
 		for(test.setLocation(getPosition().x + 1, getPosition().y - 1); b.validPoint(test); test.setLocation(test.x + 1, test.y - 1)) {
 			Piece pieceAtPoint = b.getPieceAtPoint(test);
 			if((pieceAtPoint == null) || (pieceAtPoint.getSide() != getSide())) {
-				moves.add((Point) test.clone());
+				moves.add(new Move(this, (Point) test.clone()));
 			}
 		}
 		
