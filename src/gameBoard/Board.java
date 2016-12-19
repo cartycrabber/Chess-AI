@@ -16,6 +16,8 @@ public class Board {
 	private ArrayList<Piece> blackPieces;
 	private ArrayList<Piece> whitePieces;
 	
+	private boolean gameOver;
+	
 	/**
 	 * Creates a new board of size width by height
 	 * @param width
@@ -30,6 +32,8 @@ public class Board {
 		
 		whitePieces = new ArrayList<Piece>();
 		blackPieces = new ArrayList<Piece>();
+		
+		gameOver = false;
 		
 		if(initDefaultPieces && (width == 8)) {
 			initPieces();
@@ -53,8 +57,16 @@ public class Board {
 		this.width = b.width;
 		this.height = b.height;
 		this.tiles = b.tiles.clone();
+		this.gameOver = b.gameOver;
 		whitePieces = new ArrayList<Piece>();
 		blackPieces = new ArrayList<Piece>();
+		
+		for(Piece p : b.whitePieces) {
+			this.whitePieces.add(p.copy());
+		}
+		for(Piece p : b.blackPieces) {
+			this.blackPieces.add(p.copy());
+		}
 	}
 	
 	/**
@@ -80,6 +92,8 @@ public class Board {
 			System.out.println("Removed " + destroyed + " from whitePieces: " + success);
 			success = blackPieces.remove(destroyed);
 			System.out.println("Removed " + destroyed + " from blackPieces: " + success);
+			if(destroyed instanceof King)
+				gameOver = true;
 		}
 		tiles[position.x][position.y] = piece;
 		tiles[piece.getPosition().x][piece.getPosition().y] = null;
@@ -220,6 +234,10 @@ public class Board {
 			}
 		}
 		return false;
+	}
+	
+	public boolean gameOver() {
+		return gameOver;
 	}
 	
 	public String toString() {
