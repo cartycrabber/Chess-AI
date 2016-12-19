@@ -1,5 +1,7 @@
 package tree;
 
+import java.util.ArrayList;
+
 /**
  * A node for building a tree that stores the node data and the link leading to that data
  * @author carty
@@ -13,6 +15,7 @@ public class Node<T, U> {
 	private U link;
 	
 	private Node<T, U> parent;
+	private ArrayList<Node<T, U>> children;
 	
 	public Node(T data, U link, Node<T, U> parent) {
 		this.data = data;
@@ -58,6 +61,18 @@ public class Node<T, U> {
 	
 	public Node<T, U> getParent() {
 		return parent;
+	}
+	
+	public void setChildren(ArrayList<Node<T, U>> children) {
+		this.children = children;
+	}
+	
+	public void addChild(Node<T, U> child) {
+		children.add(child);
+	}
+	
+	public ArrayList<Node<T, U>> getChildren() {
+		return children;
 	}
 	
 	//Testing
